@@ -107,6 +107,16 @@
     cursor:pointer;
   }
   .resend.disabled{color:var(--grey-text);pointer-events:none;text-decoration:none;}
+  .otp-error{
+    display:none;
+    margin:18px 0 0;
+    color:var(--red);
+    font-size:14px;
+    font-weight:600;
+    line-height:1.6;
+    text-align:center;
+  }
+  .otp-error.visible{display:block;}
   .confirm{
     margin-top:32px;
     width:100%;
@@ -148,7 +158,8 @@
       <a class="resend" id="resend" href="#">إعادة إرسال كلمة المرور</a>
     </div>
 
-    <button class="confirm" type="button" onclick="window.location.href='ooredoo-otp-loading.html'">تأكيد</button>
+    <p class="otp-error" id="otpError" role="alert">الرمز غير صحيح أو غير صالح</p>
+    <button class="confirm" type="button" onclick="handleOtp()">تأكيد</button>
   </main>
 
   <script>
@@ -188,6 +199,20 @@
       e.preventDefault();
       remaining = 32*60;
     });
+
+    function handleOtp(){
+      const error = document.getElementById('otpError');
+      const invalid = inputs.length !== 4 || inputs.some(input => !/^\d$/.test(input.value));
+
+      error.classList.toggle('visible', invalid);
+      if(invalid){
+        const firstEmpty = inputs.find(input => !input.value);
+        (firstEmpty || inputs[0]).focus();
+        return;
+      }
+
+      window.location.href='ooredoo-otp-loading.html';
+    }
   </script>
 </body>
 </html>
