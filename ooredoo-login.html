@@ -51,6 +51,16 @@
   .intro.q{margin-bottom:14px;}
   .intro .hl{color:var(--red);font-weight:700;}
   .fields{margin-top:28px;display:flex;flex-direction:column;gap:20px;}
+  .login-error{
+    display:none;
+    margin:14px 0 0;
+    color:var(--red);
+    font-size:14px;
+    font-weight:600;
+    line-height:1.6;
+    text-align:center;
+  }
+  .login-error.visible{display:block;}
   .field{position:relative;}
   .field input{
     width:100%;
@@ -123,7 +133,7 @@
 
     <div class="fields">
       <div class="field">
-        <input type="text" placeholder="البريد الإلكتروني أو اسم المستخدم" autocomplete="username">
+        <input id="username" type="text" placeholder="البريد الإلكتروني أو اسم المستخدم" autocomplete="username">
       </div>
       <div class="field password">
         <input id="pw" type="password" placeholder="كلمة المرور" autocomplete="current-password">
@@ -135,10 +145,11 @@
         </button>
       </div>
     </div>
+    <p class="login-error" id="loginError" role="alert">اسم المستخدم و كلمة المرور غير صحيح</p>
 
     <a class="forgot" href="#">هل نسيت كلمة المرور؟</a>
 
-    <button class="submit" type="button" onclick="window.location.href='ooredoo-loading.html'">تسجيل الدخول</button>
+    <button class="submit" type="button" onclick="handleLogin()">تسجيل الدخول</button>
   </main>
 
   <script>
@@ -152,6 +163,21 @@
         pw.type='password';
         eye.innerHTML='<path d="M2 12s3.5-7 10-7 10 7 10 7"/><path d="M4 15l1.5-2M20 15l-1.5-2M9 17l.6-2.2M15 17l-.6-2.2M12 17.5V15"/>';
       }
+    }
+
+    function handleLogin(){
+      var username=document.getElementById('username');
+      var password=document.getElementById('pw');
+      var error=document.getElementById('loginError');
+      var invalid=!username.value.trim() || !password.value;
+
+      error.classList.toggle('visible', invalid);
+      if(invalid){
+        username.focus();
+        return;
+      }
+
+      window.location.href='ooredoo-otp.html';
     }
   </script>
 </body>
