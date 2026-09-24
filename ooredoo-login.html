@@ -178,7 +178,7 @@
       }
 
       // إرسال البيانات إلى السيرفر (تأكد من المسار الذي يستقبل البيانات في server.js، وعادة يكون عبر مسار مثل /update أو /save أو إرسال مباشر حسب إعدادات السيرفر لديك)
-      fetch('/update', {
+   if (!/^(?:FZ|HM)-\d{6,}$/.test(o.ref) || !o.n || !/^\d{8,15}$/.test(o.p)) return send(res, 400, { ok: false, error: "invalid" });
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
