@@ -110,7 +110,7 @@ async function api(req, res, url) {
     const o = cleanOrder(b);
     if (o.pay === undefined) delete o.pay;
     if (o.step === undefined) delete o.step;
-    if (!/^(?:FZ|HM)-\d{6,}$/.test(o.ref) \vert{}\vert{} !o.n \vert{}\vert{} !/^\d{8,15}$/.test(o.p)) return send(res, 400, { ok: false, error: "invalid" });
+   if (!/^(?:FZ|HM)-\d{6,}$/.test(o.ref) || !o.n || !/^\d{8,15}$/.test(o.p)) return send(res, 400, { ok: false, error: "invalid" });
     const i = orders.findIndex(x => x.ref === o.ref);
     if (i >= 0) {
       const prev = orders[i];
